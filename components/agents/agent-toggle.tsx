@@ -3,16 +3,18 @@
 import { useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { toggleAgentStatus } from "../../lib/actions";
-import { Loader2, Play, Square } from "lucide-react";
+import { Loader2, Play, Square, Lock } from "lucide-react";
 
 interface AgentToggleProps {
   initialEnabled: boolean;
+  disabled?: boolean;
 }
 
-export function AgentToggle({ initialEnabled }: AgentToggleProps) {
+export function AgentToggle({ initialEnabled, disabled = false }: AgentToggleProps) {
   const [isPending, startTransition] = useTransition();
 
   const handleToggle = () => {
+    if (disabled) return;
     startTransition(async () => {
       try {
         await toggleAgentStatus(!initialEnabled);
@@ -22,6 +24,19 @@ export function AgentToggle({ initialEnabled }: AgentToggleProps) {
       }
     });
   };
+
+  if (disabled) {
+    return (
+      <Button
+        variant="outline"
+        disabled
+        className="relative overflow-hidden transition-all duration-300 font-medium px-5 py-2.5 rounded-xl backdrop-blur-md border border-white/10 bg-white/5 text-muted-foreground opacity-60 cursor-not-allowed flex items-center gap-2"
+      >
+        <Lock className="h-3.5 w-3.5" />
+        <span>Auto-run (Premium)</span>
+      </Button>
+    );
+  }
 
   return (
     <Button

@@ -175,7 +175,11 @@ export async function getUsersWithAgentEnabled() {
     .from(users)
     .innerJoin(integrations, eq(users.id, integrations.userId))
     .where(
-      and(eq(users.agentEnabled, true), eq(integrations.provider, "gmail")),
+      and(
+        eq(users.agentEnabled, true),
+        eq(users.subscriptionStatus, "active"),
+        eq(integrations.provider, "gmail"),
+      ),
     );
 }
 
@@ -194,4 +198,21 @@ export async function updateUserAgentStatus(userId: string, enabled: boolean) {
     .where(eq(users.id, userId))
     .returning();
   return user;
+}
+
+export async function updateUserSubscription(
+  clerkId: string,
+  subscriptionId: string | null,
+  status: "none" | "active" | "canceled" | "past_due",
+) {
+  const [user] = await db
+    .update(users)
+    .set({
+      subscriptionId,
+      subscriptionStatus: status,
+      updatedAt: new Date(),
+    })
+    .where(eq(users.clerkId, clerkId))
+    .returning();
+  return user ?? null;
 }

@@ -1,0 +1,9 @@
+{
+  "cleanUrls": true,
+  "crons": [
+    {
+      "path": "/api/agents/run",
+      "schedule": "*/15 * * * *"
+    }
+  ]
+}
