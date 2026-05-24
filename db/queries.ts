@@ -8,15 +8,16 @@ import {
   users,
 } from "./schema";
 import { GoogleProvider } from "@/lib/google";
+import { cache } from "react";
 
-export async function getUserByClerkId(clerkId: string) {
+export const getUserByClerkId = cache(async (clerkId: string) => {
   const [user] = await db
     .select()
     .from(users)
     .where(eq(users.clerkId, clerkId))
     .limit(1);
   return user ?? null;
-}
+});
 
 export async function getOrCreateUser(
   clerkId: string,
@@ -76,13 +77,13 @@ export async function upsertIntegration(data: {
   return result.id;
 }
 
-export async function getUserIntegrations(userId: string) {
+export const getUserIntegrations = cache(async (userId: string) => {
   const results = await db
     .select()
     .from(integrations)
     .where(eq(integrations.userId, userId));
   return results ?? [];
-}
+});
 
 export async function createAgentRun(userId: string) {
   const [result] = await db
@@ -135,7 +136,7 @@ export async function createTask(data: {
   return task;
 }
 
-export async function getLatestAgentRun(userId: string) {
+export const getLatestAgentRun = cache(async (userId: string) => {
   const [run] = await db
     .select()
     .from(agentRuns)
@@ -143,9 +144,9 @@ export async function getLatestAgentRun(userId: string) {
     .orderBy(desc(agentRuns.startedAt))
     .limit(1);
   return run ?? null;
-}
+});
 
-export async function getUnreadEmails(userId: string) {
+export const getUnreadEmails = cache(async (userId: string) => {
   const [result] = await db
     .select()
     .from(agentRuns)
@@ -157,9 +158,9 @@ export async function getUnreadEmails(userId: string) {
     draftsCreated: result?.draftsCreated ?? 0,
     tasksCreated: result?.tasksCreated ?? 0,
   };
-}
+});
 
-export async function getAgentRuns(userId: string) {
+export const getAgentRuns = cache(async (userId: string) => {
   const results = await db
     .select()
     .from(agentRuns)
@@ -167,7 +168,7 @@ export async function getAgentRuns(userId: string) {
     .orderBy(desc(agentRuns.startedAt))
     .limit(20);
   return results ?? [];
-}
+});
 
 export async function getUsersWithAgentEnabled() {
   return db

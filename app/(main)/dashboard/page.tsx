@@ -47,9 +47,12 @@ export default async function DashboardPage() {
     user = await getOrCreateUser(clerkId, email, name);
   }
 
-  const latestRun = await getLatestAgentRun(user.id);
+  const [latestRun, userIntegrations, unreadData] = await Promise.all([
+    getLatestAgentRun(user.id),
+    getUserIntegrations(user.id),
+    getUnreadEmails(user.id),
+  ]);
 
-  const userIntegrations = await getUserIntegrations(user.id);
   const gmailConnected = userIntegrations.some(
     (integration) => integration.provider === "gmail",
   );
@@ -88,8 +91,7 @@ export default async function DashboardPage() {
     (completedCount / onboardingSteps.length) * 100,
   );
 
-  const { emailsProcessed, draftsCreated, tasksCreated } =
-    await getUnreadEmails(user.id);
+  const { emailsProcessed, draftsCreated, tasksCreated } = unreadData;
 
   // Check if onboarding is complete (if integrations are connected or user dismissed it)
   const showOnboarding = !user.onboardingCompleted && (!gmailConnected || !googleCalendarConnected);
