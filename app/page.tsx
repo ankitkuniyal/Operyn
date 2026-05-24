@@ -281,6 +281,21 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="border-t border-white/5 bg-black/40 backdrop-blur-md py-12 px-6">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-2">
+            <Image src="/logo.png" alt="Logo" width={24} height={24} className="w-auto h-6" />
+            <span className="text-sm font-semibold text-white/80">Operyn AI © {new Date().getFullYear()}</span>
+          </div>
+          <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 text-xs font-medium text-muted-foreground">
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
+            <a href="mailto:support@operyn.com" className="hover:text-white transition-colors">Support</a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
