@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { getOrCreateUser, getUserIntegrations } from "@/db/queries";
+import { getOrCreateUser, getUserIntegrations, getUserByClerkId } from "@/db/queries";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import {
   CalendarIcon,
@@ -35,10 +35,17 @@ export default async function SettingsPage() {
   if (!clerkId) {
     redirect("/sign-in");
   }
-  const clerkUser = await currentUser();
-  const email = clerkUser?.emailAddresses[0].emailAddress ?? "";
-  const name = clerkUser?.fullName ?? "";
-  const user = await getOrCreateUser(clerkId, email, name);
+  
+  let user = await getUserByClerkId(clerkId);
+  if (!user) {
+    const clerkUser = await currentUser();
+    const email = clerkUser?.emailAddresses[0].emailAddress ?? "";
+    const name = clerkUser?.fullName ?? "";
+    user = await getOrCreateUser(clerkId, email, name);
+  }
+
+  const email = user?.email || "";
+  const name = user?.name || "";
 
   const isPremiumUser = has({ plan: "premium" });
 

@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { UserButton } from "@clerk/nextjs";
-import { auth, currentUser } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
 import { ShieldCheck, Shield, Sparkles } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { SidebarNav, MobileNav } from "@/components/layout/sidebar-nav";
+import { getUserByClerkId } from "@/db/queries";
 
 export default async function DashboardLayout({
   children,
@@ -12,8 +13,8 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   const authData = await auth();
-  const { has } = authData;
-  const user = await currentUser();
+  const { has, userId: clerkId } = authData;
+  const user = clerkId ? await getUserByClerkId(clerkId) : null;
   
   const isPremiumUser = has({ plan: "premium" });
 
@@ -68,10 +69,10 @@ export default async function DashboardLayout({
               <UserButton />
               <div className="flex flex-col min-w-0">
                 <span className="text-xs font-semibold text-white truncate">
-                  {user?.fullName || user?.username || "User Profile"}
+                  {user?.name || "User Profile"}
                 </span>
                 <span className="text-[10px] text-muted-foreground truncate">
-                  {user?.emailAddresses[0]?.emailAddress}
+                  {user?.email || ""}
                 </span>
               </div>
             </div>

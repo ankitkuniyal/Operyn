@@ -14,6 +14,7 @@ import {
   getOrCreateUser,
   getUnreadEmails,
   getUserIntegrations,
+  getUserByClerkId,
 } from "@/db/queries";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { 
@@ -37,10 +38,14 @@ export default async function DashboardPage() {
   if (!clerkId) {
     redirect("/sign-in");
   }
-  const clerkUser = await currentUser();
-  const email = clerkUser?.emailAddresses[0].emailAddress ?? "";
-  const name = clerkUser?.fullName ?? "";
-  const user = await getOrCreateUser(clerkId, email, name);
+  
+  let user = await getUserByClerkId(clerkId);
+  if (!user) {
+    const clerkUser = await currentUser();
+    const email = clerkUser?.emailAddresses[0].emailAddress ?? "";
+    const name = clerkUser?.fullName ?? "";
+    user = await getOrCreateUser(clerkId, email, name);
+  }
 
   const latestRun = await getLatestAgentRun(user.id);
 
@@ -97,7 +102,7 @@ export default async function DashboardPage() {
           Dashboard
         </h1>
         <p className="text-muted-foreground text-sm">
-          Welcome back, {clerkUser?.firstName || "User"}! Monitor and trigger your background AI agents here.
+          Welcome back, {user?.name?.split(" ")[0] || "User"}! Monitor and trigger your background AI agents here.
         </p>
       </div>
 
