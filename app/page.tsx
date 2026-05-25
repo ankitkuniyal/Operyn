@@ -16,6 +16,8 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
+import { InteractiveSimulation } from "@/components/landing/interactive-simulation";
+
 export default function Home() {
   return (
     <div className="min-h-screen text-foreground relative overflow-x-hidden">
@@ -119,87 +121,14 @@ export default function Home() {
             <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 to-transparent rounded-[32px] pointer-events-none" />
             
             <div className="text-center space-y-3 mb-12">
-              <span className="text-xs font-bold text-primary uppercase tracking-widest">Active Pipeline Demo</span>
-              <h3 className="text-3xl font-bold text-white tracking-tight">How Operyn Process Workflow Runs</h3>
+              <span className="text-xs font-bold text-primary uppercase tracking-widest">Active Pipeline Simulator</span>
+              <h3 className="text-3xl font-bold text-white tracking-tight">Interactive Workflow Visualizer</h3>
+              <p className="text-xs text-muted-foreground max-w-md mx-auto">
+                Select a scenario and click "Trigger Agent Simulation" to watch the background pipeline operate in real-time.
+              </p>
             </div>
 
-            <div className="flex flex-col lg:flex-row items-stretch justify-between gap-8 w-full">
-              {/* Step 1: Input Email */}
-              <div className="flex-1 border border-white/10 bg-white/5 p-6 rounded-2xl space-y-4 shadow-lg flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-2.5 pb-2.5 border-b border-white/5 mb-4">
-                    <Mail className="h-5 w-5 text-primary" />
-                    <span className="text-sm font-bold text-white">Incoming Unread Email</span>
-                  </div>
-                  <div className="space-y-1.5 mb-4">
-                    <p className="text-xs text-muted-foreground">From: sarah@company.com</p>
-                    <p className="text-xs text-white font-semibold">Subject: Project Alpha Sync</p>
-                  </div>
-                  <p className="text-xs text-muted-foreground leading-relaxed bg-black/30 p-3.5 rounded-xl border border-white/5">
-                    "Hi, let's schedule our Project Alpha sync on Tuesday at 3:00 PM. Please review the proposal draft beforehand."
-                  </p>
-                </div>
-              </div>
-
-              {/* Arrow 1 */}
-              <div className="flex justify-center items-center shrink-0">
-                <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30 rotate-90 lg:rotate-0">
-                  <ArrowRight className="h-5 w-5 text-primary" />
-                </div>
-              </div>
-
-              {/* Step 2: AI Processor */}
-              <div className="flex-1 border border-primary/30 bg-primary/10 p-6 rounded-2xl text-center space-y-4 shadow-xl relative flex flex-col justify-center items-center">
-                <div className="absolute top-3 right-3 flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
-                </div>
-                <div className="h-12 w-12 bg-primary/20 border border-primary/30 rounded-2xl flex items-center justify-center mx-auto mb-2">
-                  <Bot className="h-7 w-7 text-primary animate-pulse" />
-                </div>
-                <div>
-                  <h4 className="text-sm font-bold text-white">Operyn AI Engine</h4>
-                  <p className="text-xs text-muted-foreground mt-1 mb-4 leading-relaxed">Analyzing content & cross-checking calendar schedule...</p>
-                </div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold">
-                  <CheckCircle className="h-3.5 w-3.5" />
-                  No conflicts detected
-                </div>
-              </div>
-
-              {/* Arrow 2 */}
-              <div className="flex justify-center items-center shrink-0">
-                <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30 rotate-90 lg:rotate-0">
-                  <ArrowRight className="h-5 w-5 text-primary" />
-                </div>
-              </div>
-
-              {/* Step 3: Outcomes */}
-              <div className="flex-1 space-y-4 flex flex-col justify-between">
-                {/* Draft Reply card */}
-                <div className="border border-white/10 bg-white/5 p-5 rounded-xl space-y-2 flex-1 flex flex-col justify-center">
-                  <div className="flex items-center gap-2 mb-1.5">
-                    <FileText className="h-4 w-4 text-purple-400" />
-                    <span className="text-xs font-bold text-white">Gmail Draft Created</span>
-                  </div>
-                  <p className="text-[11px] text-muted-foreground bg-black/20 p-2.5 rounded border border-white/5">
-                    "Hi Sarah, sounds good. I've booked that time and added the proposal review to my list..."
-                  </p>
-                </div>
-
-                {/* Calendar Event card */}
-                <div className="border border-white/10 bg-white/5 p-5 rounded-xl space-y-2 flex-1 flex flex-col justify-center">
-                  <div className="flex items-center gap-2 mb-1.5">
-                    <Calendar className="h-4 w-4 text-blue-400" />
-                    <span className="text-xs font-bold text-white">Calendar Event Booked</span>
-                  </div>
-                  <div className="text-[11px] text-white font-medium bg-black/20 p-2.5 rounded border border-white/5">
-                    📅 Alpha Sync with Sarah <br />
-                    ⏰ Tuesday, 3:00 PM - 4:00 PM
-                  </div>
-                </div>
-              </div>
-            </div>
+            <InteractiveSimulation />
           </div>
         </div>
       </section>
