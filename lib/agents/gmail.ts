@@ -37,7 +37,17 @@ export async function fetchUnreadEmails(
     })
   );
 
-  return emails;
+  // Filter out automated system addresses (noreply, do-not-reply, donotreply, etc.)
+  return emails.filter((email) => {
+    const fromLower = email.from.toLowerCase();
+    const isNoReply =
+      fromLower.includes("noreply") ||
+      fromLower.includes("no-reply") ||
+      fromLower.includes("donotreply") ||
+      fromLower.includes("do-not-reply") ||
+      fromLower.includes("mailer-daemon");
+    return !isNoReply;
+  });
 }
 
 function extractBodyText(part: gmail_v1.Schema$MessagePart): { plain: string; html: string } {
