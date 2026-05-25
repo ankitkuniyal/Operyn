@@ -147,8 +147,8 @@ export async function runAgent(userId: string) {
         totalDraftsCreated += draftCreated ? 1 : 0;
         totalEventsCreated += emailEventsCreated;
 
-        // Introduce a small 500ms delay to respect Gemini API rate limits
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        // Introduce a 4-second delay to safely stay within Gemini free-tier rate limits (15 RPM)
+        await new Promise((resolve) => setTimeout(resolve, 4000));
       } catch (error) {
         console.error("Email processing failed:", error);
         actionsLog.push({

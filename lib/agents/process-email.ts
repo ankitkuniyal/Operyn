@@ -89,7 +89,8 @@ export async function anaylzeWithAI(
     calendarContext = `\n\nUpcoming calendar events (next 24 hours):\n${eventsList}\n\nUse these events to inform your analysis. For example, if the email mentions a meeting that's already on the calendar, don't create a duplicate task. If someone proposes a time that conflicts with an existing event, note the conflict in the draft reply.`;
   }
   const result = await generateText({
-    model: google("gemini-2.5-flash-lite"),
+    model: google("gemini-3.1-flash-lite"),
+    maxRetries: 5,
     prompt: `You are an AI assistant analyzing emails. Today's date is ${today}.
 
 Analyze the following email and extract structured information.
