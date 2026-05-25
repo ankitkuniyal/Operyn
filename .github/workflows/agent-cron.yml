@@ -1,0 +1,30 @@
+name: Trigger Background Agent Cron
+
+on:
+  schedule:
+    # Run every 15 minutes (note: GitHub Action cron schedule can occasionally experience slight delays of 1-3 mins)
+    - cron: '*/15 * * * *'
+  workflow_dispatch: # Allows triggering the cron manually from the GitHub Actions tab
+
+jobs:
+  run-agent:
+    name: Trigger Operyn Agent Run
+    runs-on: ubuntu-latest
+    steps:
+      - name: Make HTTP Request to API Route
+        run: |
+          if [ -z "${{ secrets.APP_URL }}" ]; then
+            echo "Error: APP_URL secret is not set in GitHub repository secrets."
+            exit 1
+          fi
+          if [ -z "${{ secrets.CRON_SECRET }}" ]; then
+            echo "Error: CRON_SECRET secret is not set in GitHub repository secrets."
+            exit 1
+          fi
+          
+          echo "Triggering agent run at ${{ secrets.APP_URL }}/api/agents/run..."
+          
+          curl -i -X POST "${{ secrets.APP_URL }}/api/agents/run" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            -H "Content-Type: application/json" \
+            --fail-with-body
