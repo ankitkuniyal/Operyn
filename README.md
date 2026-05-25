@@ -2,7 +2,7 @@
   <img src="./public/logo.png" alt="Operyn Logo" width="96" height="96" />
 </p>
 
-# Operyn 🤖💼
+# Operyn
 
 > [!NOTE]
 > For a detailed architectural breakdown of non-functional requirements, performance engineering, cost optimizations, and security hardening, check out the [System Design & Engineering Decisions Guide](./SYSTEM_DESIGN.md).
