@@ -2,7 +2,10 @@
   <img src="./public/logo.png" alt="Operyn Logo" width="96" height="96" />
 </p>
 
-# Operyn 
+# Operyn 🤖💼
+
+> [!NOTE]
+> For a detailed architectural breakdown of non-functional requirements, performance engineering, cost optimizations, and security hardening, check out the [System Design & Engineering Decisions Guide](./SYSTEM_DESIGN.md).
 
 **Operyn** is an autonomous AI Executive Assistant designed to manage daily workspace workflows in the background. It securely connects to your Google Workspace, analyzes incoming items using generative models, schedules tasks, drafts context-aware email replies, and manages calendar events automatically.
 
@@ -15,7 +18,7 @@
 *   **Robust Security & AES-256-GCM**: Persists all third-party OAuth access/refresh tokens in PostgreSQL using enterprise-grade AES-256-GCM encryption.
 *   **Prompt Injection Protection**: Employs sandboxed `<email_body>` delimiters and strict system-level model guardrails to prevent indirect prompt injections.
 *   **Clerk Billing & Webhooks Synchronization**: Real-time webhook integration to sync Clerk subscriptions (`active`, `past_due`, `canceled`) to the Postgres database.
-*   **Vercel Cron Automation**: Integrates with Vercel Cron to securely trigger background agent runs for premium subscribers every 15 minutes.
+*   **GitHub Actions Cron Automation**: Runs GitHub Actions workflow schedules to securely trigger background agent runs for premium subscribers every 15 minutes.
 *   **Rate-Limiting Protection**: Restricts manual agent runs to 3 executions per 10 minutes to protect API quotas.
 *   **Performance Cache Memoization**: Integrates React's `cache` query memoization and concurrent `Promise.all` fetch routines to render views instantly.
 
@@ -72,7 +75,7 @@ graph TB
     end
 
     subgraph Automation ["Automated Triggers"]
-        VercelCron["Vercel Cron Scheduler"]
+        GHCron["GitHub Actions Cron"]
     end
 
     %% Client and Auth Flows
@@ -87,7 +90,7 @@ graph TB
 
     %% Webhook & Cron Flow
     ClerkSrv -->|Subscription Webhook Event| Webhooks
-    VercelCron -->|HTTPS Trigger with CRON_SECRET| CronRoute
+    GHCron -->|HTTPS Trigger with CRON_SECRET| CronRoute
 
     %% Server Logic and DB Layer
     Actions -->|Queries / Writes| Drizzle
@@ -102,6 +105,21 @@ graph TB
     CronRoute & Actions -->|Process Gmail inbox| GmailAPI
     CronRoute & Actions -->|Schedule Events| CalendarAPI
     CronRoute & Actions -->|Securely Prompt| GeminiAI
+
+    %% Style definitions
+    classDef client fill:#e0f2fe,stroke:#0284c7,stroke-width:2px,rx:8px,ry:8px,color:#0369a1;
+    classDef auth fill:#faf5ff,stroke:#d8b4fe,stroke-width:2px,rx:8px,ry:8px,color:#6b21a8;
+    classDef server fill:#f5f3ff,stroke:#c084fc,stroke-width:2px,rx:8px,ry:8px,color:#5b21b6;
+    classDef database fill:#ecfdf5,stroke:#34d399,stroke-width:2px,rx:8px,ry:8px,color:#065f46;
+    classDef external fill:#fff7ed,stroke:#fb923c,stroke-width:2px,rx:8px,ry:8px,color:#9a3412;
+    classDef automation fill:#ecfeff,stroke:#22d3ee,stroke-width:2px,rx:8px,ry:8px,color:#075985;
+    
+    class UI,Forms,ClerkUI client;
+    class ClerkSrv,GoogleOAuth auth;
+    class Router,Actions,Webhooks,CronRoute,RateLimit server;
+    class Drizzle,PostgresDB,Crypto database;
+    class GeminiAI,GmailAPI,CalendarAPI external;
+    class GHCron automation;
 ```
 
 ### 2. Data Flow Diagram (DFD Level 1)
@@ -152,6 +170,15 @@ graph LR
     P6 -->|Write action logs| DS3
     P6 -->|Create replies / drafts| GmailService
     P6 -->|Insert calendar entries| CalendarService
+
+    %% Style definitions
+    classDef entity fill:#fff7ed,stroke:#fb923c,stroke-width:2px,rx:8px,ry:8px,color:#9a3412;
+    classDef process fill:#e0f2fe,stroke:#0284c7,stroke-width:2px,rx:8px,ry:8px,color:#0369a1;
+    classDef store fill:#ecfdf5,stroke:#34d399,stroke-width:2px,rx:8px,ry:8px,color:#065f46;
+    
+    class User,GmailService,CalendarService entity;
+    class P1,P2,P3,P4,P5,P6 process;
+    class DS1,DS2,DS3 store;
 ```
 
 ### 3. Data Flow Diagram (DFD Level 2 - AI Processing Pipeline)
@@ -186,6 +213,17 @@ graph TD
     P61 -->|Call Draft API| GmailAPI["Gmail API"]
     P62 -->|Call Calendar API| CalendarAPI["Calendar API"]
     P63 -->|Write Task Record| DS4[("Postgres: Tasks Table")]
+
+    %% Style definitions
+    classDef input fill:#fff7ed,stroke:#fb923c,stroke-width:2px,rx:8px,ry:8px,color:#9a3412;
+    classDef process fill:#e0f2fe,stroke:#0284c7,stroke-width:2px,rx:8px,ry:8px,color:#0369a1;
+    classDef external fill:#f5f3ff,stroke:#c084fc,stroke-width:2px,rx:8px,ry:8px,color:#5b21b6;
+    classDef store fill:#ecfdf5,stroke:#34d399,stroke-width:2px,rx:8px,ry:8px,color:#065f46;
+    
+    class EmailContent,SecurityRules,ZodSchema input;
+    class P51,P52,P53,P54,P55,P61,P62,P63 process;
+    class GmailAPI,CalendarAPI external;
+    class DS3,DS4 store;
 ```
 
 ---
