@@ -217,3 +217,35 @@ export async function updateUserSubscription(
     .returning();
   return user ?? null;
 }
+
+export const getTasks = cache(async (userId: string) => {
+  return db
+    .select()
+    .from(tasks)
+    .where(eq(tasks.userId, userId))
+    .orderBy(desc(tasks.createdAt));
+});
+
+export async function updateTaskStatus(
+  taskId: string,
+  userId: string,
+  status: "pending" | "completed" | "cancelled",
+) {
+  const [result] = await db
+    .update(tasks)
+    .set({
+      status,
+      completedAt: status === "completed" ? new Date() : null,
+    })
+    .where(and(eq(tasks.id, taskId), eq(tasks.userId, userId)))
+    .returning();
+  return result ?? null;
+}
+
+export async function deleteTask(taskId: string, userId: string) {
+  const [result] = await db
+    .delete(tasks)
+    .where(and(eq(tasks.id, taskId), eq(tasks.userId, userId)))
+    .returning();
+  return result ?? null;
+}

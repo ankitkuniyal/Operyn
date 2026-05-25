@@ -3,13 +3,23 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { HomeIcon, MailIcon, SettingsIcon } from "lucide-react";
+import { HomeIcon, MailIcon, SettingsIcon, CheckSquare, Calendar } from "lucide-react";
 
 const navItems = [
   {
     label: "Dashboard",
     href: "/dashboard",
     icon: HomeIcon,
+  },
+  {
+    label: "Tasks",
+    href: "/tasks",
+    icon: CheckSquare,
+  },
+  {
+    label: "Calendar",
+    href: "/calendar",
+    icon: Calendar,
   },
   {
     label: "Monitoring",

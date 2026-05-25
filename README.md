@@ -18,6 +18,8 @@
 
 *   **Autonomous Background Worker**: Periodically polls and executes agent tasks securely without manual intervention.
 *   **Google OAuth Integration**: Connects dynamically to Gmail and Google Calendar to scan mailboxes, check conflicts, and insert meetings.
+*   **Interactive Task Manager**: A dedicated workspace tab showing AI-extracted tasks, allowing filtering (Pending, Completed, All) and sorting (Due Date, Priority, Date Created) with **Optimistic UI Updates** that run with zero perceived latency.
+*   **Live Calendar Sync Agenda**: A real-time timeline displaying upcoming events queried directly from the user's Google Calendar with customized tags highlighting slots scheduled by the AI.
 *   **Robust Security & AES-256-GCM**: Persists all third-party OAuth access/refresh tokens in PostgreSQL using enterprise-grade AES-256-GCM encryption.
 *   **Prompt Injection Protection**: Employs sandboxed `<email_body>` delimiters and strict system-level model guardrails to prevent indirect prompt injections.
 *   **Clerk Billing & Webhooks Synchronization**: Real-time webhook integration to sync Clerk subscriptions (`active`, `past_due`, `canceled`) to the Postgres database.

@@ -66,3 +66,40 @@ export async function runAgentManually() {
   revalidatePath("/dashboard");
   revalidatePath("/monitoring");
 }
+
+export async function toggleTaskStatusAction(
+  taskId: string,
+  status: "pending" | "completed" | "cancelled",
+) {
+  const { userId: clerkId } = await auth();
+  if (!clerkId) {
+    throw new Error("Unauthorized");
+  }
+
+  const user = await getUserByClerkId(clerkId);
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const { updateTaskStatus: dbUpdateTaskStatus } = await import("@/db/queries");
+  await dbUpdateTaskStatus(taskId, user.id, status);
+
+  revalidatePath("/dashboard");
+}
+
+export async function deleteTaskAction(taskId: string) {
+  const { userId: clerkId } = await auth();
+  if (!clerkId) {
+    throw new Error("Unauthorized");
+  }
+
+  const user = await getUserByClerkId(clerkId);
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const { deleteTask: dbDeleteTask } = await import("@/db/queries");
+  await dbDeleteTask(taskId, user.id);
+
+  revalidatePath("/dashboard");
+}
