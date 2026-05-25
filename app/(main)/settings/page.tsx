@@ -193,18 +193,32 @@ export default async function SettingsPage() {
                   </span>
                   <div className="flex items-center gap-1.5">
                     <span
-                      className={`h-2 w-2 rounded-full ${user.agentEnabled ? "bg-emerald-400 animate-pulse" : "bg-amber-400 animate-pulse"}`}
+                      className={`h-2 w-2 rounded-full ${
+                        !isPremiumUser
+                          ? "bg-neutral-600"
+                          : user.agentEnabled
+                          ? "bg-emerald-400 animate-pulse"
+                          : "bg-amber-400 animate-pulse"
+                      }`}
                     />
                     <span
-                      className={`text-xs font-medium ${user.agentEnabled ? "text-emerald-400" : "text-amber-400"}`}
+                      className={`text-xs font-medium ${
+                        !isPremiumUser
+                          ? "text-muted-foreground"
+                          : user.agentEnabled
+                          ? "text-emerald-400"
+                          : "text-amber-400"
+                      }`}
                     >
-                      {user.agentEnabled
+                      {!isPremiumUser
+                        ? "Manual Triggers Only"
+                        : user.agentEnabled
                         ? "Active & Listening"
                         : "Paused / Off-duty"}
                     </span>
                   </div>
                 </div>
-                <AgentToggle initialEnabled={user.agentEnabled} />
+                <AgentToggle initialEnabled={user.agentEnabled} disabled={!isPremiumUser} />
               </div>
             </CardContent>
           </Card>

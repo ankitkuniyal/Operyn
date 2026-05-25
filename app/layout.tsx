@@ -34,7 +34,7 @@ export default function RootLayout({
           appearance={{
             theme: shadcn,
             variables: {
-              colorBackground: "oklch(0.10 0.02 260)",
+              colorBackground: "oklch(0.11 0.01 220)",
             },
             elements: {
               card: "bg-background/90 shadow-2xl border-white/10",
