@@ -4,7 +4,6 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 
 const fontSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -13,7 +12,11 @@ const fontSans = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: "Operyn",
-  description: "An Autonomous AI Executive Assistant",
+  description: "Operyn is an autonomous AI Executive Assistant that manages workspace workflows—scanning Gmail, organizing tasks, drafting context-aware email replies, and scheduling calendar events in the background.",
+  icons: {
+    icon: "/icon.svg",
+    apple: "/icon.svg",
+  },
 };
 
 export default function RootLayout({
