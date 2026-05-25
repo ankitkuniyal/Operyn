@@ -5,10 +5,11 @@ import { Button } from "@/components/ui/button";
 import { runAgentManually } from "@/lib/actions";
 import { Loader2, Play } from "lucide-react";
 
-export function RunAgentButton() {
+export function RunAgentButton({ disabled }: { disabled?: boolean }) {
   const [isPending, startTransition] = useTransition();
 
   const handleRun = () => {
+    if (disabled) return;
     startTransition(async () => {
       try {
         await runAgentManually();
@@ -22,8 +23,9 @@ export function RunAgentButton() {
   return (
     <Button
       onClick={handleRun}
-      disabled={isPending}
-      className="bg-primary hover:bg-primary/90 text-white font-medium shadow-lg shadow-primary/20 rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 flex items-center gap-2 justify-center disabled:opacity-75 disabled:hover:scale-100"
+      disabled={isPending || disabled}
+      title={disabled ? "Please connect your Gmail integration to run the agent" : undefined}
+      className="bg-primary hover:bg-primary/90 text-white font-medium shadow-lg shadow-primary/20 rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 flex items-center gap-2 justify-center disabled:opacity-50 disabled:hover:scale-100 disabled:pointer-events-none"
     >
       {isPending ? (
         <>

@@ -223,7 +223,7 @@ export default async function DashboardPage() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 items-stretch pt-2">
-                <RunAgentButton />
+                <RunAgentButton disabled={!gmailConnected} />
                 <AgentToggle initialEnabled={user.agentEnabled} disabled={!isPremiumUser} />
               </div>
             </CardContent>

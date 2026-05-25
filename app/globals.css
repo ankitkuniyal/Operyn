@@ -50,38 +50,38 @@
 }
 
 :root, .dark {
-  --background: oklch(0.11 0.01 15);
+  --background: oklch(0.10 0.02 260);
   --foreground: oklch(0.98 0 0);
-  --card: oklch(0.15 0.01 15 / 0.4);
+  --card: oklch(0.14 0.02 260 / 0.4);
   --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.15 0.01 15 / 0.6);
+  --popover: oklch(0.14 0.02 260 / 0.6);
   --popover-foreground: oklch(0.98 0 0);
-  --primary: oklch(0.58 0.22 25);
+  --primary: oklch(0.58 0.23 275);
   --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.2 0.02 15 / 0.5);
+  --secondary: oklch(0.18 0.03 260 / 0.5);
   --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.2 0.01 15 / 0.4);
-  --muted-foreground: oklch(0.7 0.01 15);
-  --accent: oklch(0.25 0.02 15 / 0.5);
+  --muted: oklch(0.16 0.02 260 / 0.4);
+  --muted-foreground: oklch(0.7 0.02 260);
+  --accent: oklch(0.22 0.03 260 / 0.5);
   --accent-foreground: oklch(0.98 0 0);
   --destructive: oklch(0.58 0.22 25);
   --border: oklch(0.98 0 0 / 0.1);
   --input: oklch(0.98 0 0 / 0.1);
-  --ring: oklch(0.58 0.22 25 / 0.5);
-  --chart-1: oklch(0.58 0.22 25);
-  --chart-2: oklch(0.65 0.15 35);
-  --chart-3: oklch(0.7 0.1 45);
-  --chart-4: oklch(0.75 0.05 55);
-  --chart-5: oklch(0.8 0.02 65);
+  --ring: oklch(0.58 0.23 275 / 0.5);
+  --chart-1: oklch(0.58 0.23 275);
+  --chart-2: oklch(0.65 0.18 290);
+  --chart-3: oklch(0.7 0.14 305);
+  --chart-4: oklch(0.75 0.09 320);
+  --chart-5: oklch(0.8 0.05 335);
   --radius: 0.75rem;
-  --sidebar: oklch(0.15 0.01 15 / 0.4);
+  --sidebar: oklch(0.14 0.02 260 / 0.4);
   --sidebar-foreground: oklch(0.98 0 0);
-  --sidebar-primary: oklch(0.58 0.22 25);
+  --sidebar-primary: oklch(0.58 0.23 275);
   --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.25 0.02 15 / 0.5);
+  --sidebar-accent: oklch(0.22 0.03 260 / 0.5);
   --sidebar-accent-foreground: oklch(0.98 0 0);
   --sidebar-border: oklch(0.98 0 0 / 0.1);
-  --sidebar-ring: oklch(0.58 0.22 25 / 0.5);
+  --sidebar-ring: oklch(0.58 0.23 275 / 0.5);
 }
 
 @layer base {
@@ -90,7 +90,7 @@
   }
   body {
     @apply bg-background text-foreground;
-    background-image: radial-gradient(circle at 50% -20%, oklch(0.22 0.05 20), oklch(0.11 0.01 15) 80%);
+    background-image: radial-gradient(circle at 50% -20%, oklch(0.20 0.06 270), oklch(0.10 0.02 260) 80%);
     background-attachment: fixed;
   }
   html {
@@ -99,9 +99,9 @@
   [data-slot="card"], [data-slot="popover"], .cl-card, .cl-popoverContent {
     @apply backdrop-blur-xl shadow-2xl;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    background-color: oklch(0.11 0.01 15 / 0.95) !important;
+    background-color: oklch(0.10 0.02 260 / 0.95) !important;
   }
   .cl-navbar {
-    background-color: oklch(0.11 0.01 15 / 0.95) !important;
+    background-color: oklch(0.10 0.02 260 / 0.95) !important;
   }
 }
