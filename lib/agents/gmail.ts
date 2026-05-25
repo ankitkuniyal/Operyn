@@ -17,7 +17,7 @@ export async function fetchUnreadEmails(
 ): Promise<ParsedEmail[]> {
   const response = await gmail.users.messages.list({
     userId: 'me',
-    q: 'is:unread newer_than:7d',
+    q: 'is:unread category:primary newer_than:7d',
     maxResults,
   });
 
