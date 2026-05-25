@@ -7,6 +7,9 @@
 > [!NOTE]
 > For a detailed architectural breakdown of non-functional requirements, performance engineering, cost optimizations, and security hardening, check out the [System Design & Engineering Decisions Guide](./SYSTEM_DESIGN.md).
 
+> [!WARNING]
+> **Google OAuth Integration Notice**: The Google Workspace OAuth integration is currently running in **Developer Testing Mode** in compliance with Google API Verification policies. To test the live integration, you can either run the application locally by supplying your own client credentials (see Local Setup), or contact me directly to have your Google account whitelisted on the Google Cloud Console.
+
 **Operyn** is an autonomous AI Executive Assistant designed to manage daily workspace workflows in the background. It securely connects to your Google Workspace, analyzes incoming items using generative models, schedules tasks, drafts context-aware email replies, and manages calendar events automatically.
 
 ---
